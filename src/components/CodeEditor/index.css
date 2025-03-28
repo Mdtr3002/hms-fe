@@ -1,0 +1,18 @@
+.cm-editor {
+  border: 1px solid #dbdcdd;
+  border-radius: 8px;
+  overflow: auto;
+  resize: vertical;
+}
+
+.cm-editor.cm-focused {
+  outline: none !important;
+}
+
+.cm-gutters {
+  background-color: #f5f5f5 !important;
+}
+
+.cm-gutterElements {
+  padding: 0 3px 0 5px;
+}

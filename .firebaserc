@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "dev": "ctct-web-dev",
+    "default": "ctct-production"
+  },
+  "targets": {},
+  "etags": {}
+}

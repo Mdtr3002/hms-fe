@@ -1,0 +1,55 @@
+.react-pdf__Outline {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  column-gap: 0.25rem;
+  overflow: auto;
+  background-color: #2a2a2e;
+  padding: 0.25rem;
+  outline-style: none;
+  color: #d4d4d5;
+  border: 1px solid #202023;
+}
+
+.react-pdf__Outline ul {
+  column-gap: 0.5rem;
+}
+
+.react-pdf__Outline ul li {
+  margin-bottom: 0.5rem;
+}
+
+.react-pdf__Outline ul li ul li {
+  padding-left: 1rem;
+}
+
+.react-pdf__Outline a {
+  display: flex;
+  flex: 1;
+  line-height: 1.25rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.react-pdf__Outline a:hover {
+  border-radius: 8px;
+  background-color: #606063;
+  color: #efeff0;
+}
+
+@media (min-width: 768px) {
+  .react-pdf__Outline {
+    column-gap: 0.5rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .react-pdf__Outline {
+    column-gap: 0.75rem;
+    padding: 1.25rem;
+  }
+}
+
+/* h-full gap-y-1 overflow-auto bg-[#4D4D4D] p-1 text-xs font-medium text-white lg:gap-y-2 lg:p-3 lg:text-sm 2xl:h-[1000px] 2xl:gap-y-3 3xl:p-5 3xl:text-base */

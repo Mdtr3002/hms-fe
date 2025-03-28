@@ -1,0 +1,49 @@
+label {
+  cursor: pointer;
+}
+
+input[type='checkbox'].question.checkbox:not(:checked) {
+  background-color: white;
+}
+
+input[type='checkbox'].question.checkbox {
+  appearance: none;
+  /* Not removed via appearance */
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  aspect-ratio: 1;
+  width: auto;
+  height: 1.5rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  transition: all 300ms ease-out;
+}
+
+input[type='checkbox'].question.checkbox ~ * {
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  input[type='checkbox'].question.checkbox {
+    width: auto;
+    height: 2em;
+  }
+}
+
+@media (min-width: 1280px) {
+  input[type='checkbox'].question.checkbox {
+    width: auto;
+    height: 2.5em;
+  }
+}
+
+input[type='checkbox'].question.checkbox:focus {
+  outline: none; /*to remove the square border on focus*/
+}
+
+input[type='checkbox'].question.checkbox:checked ~ label {
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}

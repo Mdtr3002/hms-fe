@@ -1,0 +1,54 @@
+.react-search-bar__container {
+  height: fit-content;
+}
+
+.react-search-bar__menu {
+  z-index: 40 !important;
+}
+
+.react-search-bar__control {
+  height: fit-content;
+  min-height: auto !important;
+}
+
+.react-search-bar__dropdown-indicator {
+  display: none !important;
+}
+
+.react-search-bar__indicator-separator {
+  display: none;
+}
+
+.react-search-bar__clear-indicator {
+  display: none !important;
+}
+
+.react-search-bar__indicators {
+  height: fit-content;
+  width: fit-content;
+  align-self: center !important;
+}
+
+.react-search-bar__input-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  display: -webkit-flex;
+}
+
+.react-search-bar__value-container {
+  display: flex !important;
+  height: fit-content;
+  align-self: center !important;
+  flex-wrap: nowrap !important;
+}
+
+.react-search-bar__single-value {
+  width: 100%;
+  position: absolute;
+}
+
+.react-search-bar__placeholder {
+  position: absolute;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  height: 100vh;
+}
+
+body {
+  width: 100vw;
+  height: 100dvh;
+  background-color: #ffffff;
+  margin: 0;
+  max-width: 100vw;
+  color: #252641;
+  font-family: 'Baloo Chettan 2', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  scrollbar-gutter: stable both-edges;
+  overflow-y: auto;
+}
+
+td,
+th {
+  padding: 0;
+}
+
+p {
+  color: #252641;
+}
+
+audio::-webkit-media-controls-timeline,
+iframe::-webkit-media-controls-timeline {
+  display: none !important;
+}
+
+/* ::-webkit-scrollbar {
+  display: none;
+  background-color: #fff;
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 4px solid #fff;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+} */
+
+.show-scrollbar::-webkit-scrollbar {
+  display: block;
+  background-color: transparent;
+  width: 4px;
+}
+
+.show-scrollbar::-webkit-scrollbar-track {
+  background-color: #fff;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.show-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 20px;
+  border: 0;
+}
+
+.scrollbar-chatbot-bg-md.show-scrollbar::-webkit-scrollbar-track {
+  background-color: #ebf5ff !important;
+}
+
+.scrollbar-chatbot-bg.show-scrollbar::-webkit-scrollbar-track {
+  background-color: #e3edf7 !important;
+}
+
+.black-placeholder:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #252641;
+}
+
+.black-placeholde::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #252641;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid #4285f4;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#root {
+  padding-top: 72px;
+}
+
+.with-nav-height {
+  min-height: calc(100dvh - 72px);
+  height: calc(100dvh - 72px);
+}
+
+.partners-banner-position {
+  object-position: right;
+}
+
+@media (min-width: 768px) {
+  #root {
+    padding-top: 64px;
+  }
+
+  .with-nav-height {
+    min-height: calc(100dvh - 64px);
+    height: calc(100dvh - 64px);
+  }
+
+  .partners-banner-position {
+    object-position: 0% 44%;
+  }
+}
+
+@media (min-width: 1280px) {
+  #root {
+    padding-top: 67px;
+  }
+
+  .with-nav-height {
+    min-height: calc(100dvh - 67px);
+    height: calc(100dvh - 67px);
+  }
+}
+
+@media (min-width: 1872px) {
+  #root {
+    padding-top: 81px;
+  }
+
+  .with-nav-height {
+    min-height: calc(100dvh - 81px);
+    height: calc(100dvh - 81px);
+  }
+}
+
+.recharts-wrapper {
+  margin-left: -20px;
+}
+
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}
+
+* {
+  --toastify-color-info: #4285f4;
+  --toastify-color-success: #0f9d58;
+  --toastify-color-warning: #f4b400;
+  --toastify-color-error: #db4437;
+
+  --toastify-icon-color-info: #4285f4;
+  --toastify-icon-color-success: #0f9d58;
+  --toastify-icon-color-warning: #f4b400;
+  --toastify-icon-color-error: #db4437;
+
+  --toastify-font-family: inherit;
+}
+
+.Toastify__toast-body {
+  font-family: 'Baloo Chettan 2';
+}
+
+.markdown > * {
+  all: revert;
+  margin: 0;
+}
+
+.math-display {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.banner-img-position {
+  object-position: 0% 44%;
+}

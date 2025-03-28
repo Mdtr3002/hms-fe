@@ -1,0 +1,44 @@
+.react-select__control {
+  min-height: auto !important;
+}
+
+/* .react-select__menu {
+  top: calc(100% + 8px) !important;
+} */
+
+.react-select__indicator-separator {
+  display: none;
+}
+
+.react-select__clear-indicator {
+  display: none !important;
+}
+
+.react-select__indicators {
+  height: fit-content;
+  width: fit-content;
+  align-self: center !important;
+}
+
+.react-select__input-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  display: -webkit-flex;
+}
+
+.react-select__value-container {
+  display: flex !important;
+  align-self: center !important;
+  flex-wrap: nowrap !important;
+}
+
+.react-select__single-value {
+  width: 100%;
+  position: absolute;
+}
+
+.react-select__placeholder {
+  position: absolute;
+  text-overflow: ellipsis;
+}

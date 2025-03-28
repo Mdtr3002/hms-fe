@@ -1,0 +1,22 @@
+.markdown {
+  font-size: 14px;
+  line-height: normal;
+}
+
+@media (min-width: 768px) {
+  .markdown {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .markdown {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1872px) {
+  .markdown {
+    font-size: 24px;
+  }
+}

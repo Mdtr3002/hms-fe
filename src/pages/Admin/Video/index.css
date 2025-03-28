@@ -1,0 +1,35 @@
+.filepond--root {
+  font-family: 'Baloo Chettan 2', BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+.filepond--credits {
+  display: none;
+}
+
+.filepond--drop-label label {
+  font-weight: bold;
+  font-size: 1rem /* 16px */;
+  line-height: 1.5rem /* 24px */;
+}
+
+@media (min-width: 768px) {
+  .filepond--drop-label label {
+    font-size: 1.25rem /* 20px */;
+    line-height: 1.75rem /* 28px */;
+  }
+}
+
+@media (min-width: 1024px) {
+  .filepond--drop-label label {
+    font-size: 1.5rem /* 24px */;
+    line-height: 2rem /* 32px */;
+  }
+}
+
+@media (min-width: 1872px) {
+  .filepond--drop-label label {
+    font-size: 1.875rem /* 30px */;
+    line-height: 2.25rem /* 36px */;
+  }
+}
