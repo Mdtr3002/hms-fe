@@ -1,6 +1,6 @@
-# Chung Ta Cung Tien Webpage
+# HMS Webpage
 
-This is the frontend repository of CTCT Webpage.
+This is the frontend repository of HMS Webpage.
 
 ---
 
@@ -12,15 +12,15 @@ For development, you will need
 
 ## Install
 
-$ npm install
+$ yarn install
 
 ## Running the project locally
 
-$ npm start
+$ yarn start
 
 ## Simple build for production
 
-$ npm run build
+$ yarn run build
 
 ## If husky doesn't run, please add the following command and try again
 
