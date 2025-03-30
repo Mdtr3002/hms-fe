@@ -63,7 +63,7 @@ const DeleteModal = ({
           {/* <DeleteIcon /> */}
           <Icon.DeleteModalIcon />
         </div>
-        <span className='mt-4 text-2xl font-medium text-[#DB4437]'>Bạn có chắc chắn?</span>
+        <span className='mt-4 text-2xl font-medium text-[#DB4437]'>Are you certain?</span>
         <span className='mt-3 text-center text-base text-[#404046] md:mt-9'>{text}</span>
         <div className='mt-3 flex w-[260px] justify-between'>
           <button
@@ -71,14 +71,14 @@ const DeleteModal = ({
             className='h-11 w-[92px] rounded-[4px] border border-[#E9E9E9] bg-white text-center text-base text-[#404046] hover:bg-black/[.2]'
             onClick={handleCancel}
           >
-            {positiveOption || 'Hủy'}
+            {positiveOption || 'Cancel'}
           </button>
           <button
             type='button'
             className='h-11 w-[92px] rounded-[4px] border bg-[#DB4437] text-center text-base text-white hover:bg-[#DB4437]/[.8]'
             onClick={handleDelete}
           >
-            {negativeOption || 'Xóa'}
+            {negativeOption || 'Delete'}
           </button>
         </div>
       </div>

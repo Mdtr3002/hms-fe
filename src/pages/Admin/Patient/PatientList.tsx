@@ -15,15 +15,29 @@ const mockPatients: Patient[] = [
     _id: '1',
     name: 'Nguyễn Văn A',
     phoneNum: '0123456789',
-    dob: '2021-09-01',
-    lastUpdatedAt: '2021-09-01',
+    dob: 1743344526683,
+    lastUpdatedAt: 1743344526683,
   },
   {
     _id: '2',
     name: 'Nguyễn Văn B',
     phoneNum: '0123456789',
-    dob: '2021-09-01',
-    lastUpdatedAt: '2021-09-01',
+    dob: 1743344526683,
+    lastUpdatedAt: 1743344526683,
+  },
+  {
+    _id: '3',
+    name: 'Nguyễn Văn A',
+    phoneNum: '0123456789',
+    dob: 1743344526683,
+    lastUpdatedAt: 1743344526683,
+  },
+  {
+    _id: '4',
+    name: 'Nguyễn Văn B',
+    phoneNum: '0123456789',
+    dob: 1743344526683,
+    lastUpdatedAt: 1743344526683,
   },
 ];
 
@@ -38,7 +52,7 @@ const PatientListPage = () => {
   const page = useBoundStore.use.page();
   const setPage = useBoundStore.use.setPage();
 
-  const [patients, setPatients] = useState<Patient[]>(mockPatients);
+  const [patients, setPatients] = useState<Patient[]>([...mockPatients]);
   const [totalCount, setTotalCount] = useState(1);
 
   const tableRef = React.useRef<HTMLDivElement>(null);
@@ -141,7 +155,7 @@ const PatientListPage = () => {
                     lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
                     value={filterName}
                     onChange={onInputFilterName}
-                    placeholder='Tìm câu hỏi'
+                    placeholder="Search by patient's name"
                   />
                 </div>
                 <button
@@ -200,14 +214,14 @@ const PatientListPage = () => {
                         {patients.length === 0 ? (
                           <div className='z-10 rounded-[20px] bg-white px-4 py-3 md:p-5 xl:p-6 2xl:p-7'>
                             <NoData width={200} className='mx-auto w-[200px] p-7 xl:w-[300px]' />
-                            <p className='w-full text-center'>Không tìm thấy chương</p>
+                            <p className='w-full text-center'>No patients found</p>
                           </div>
                         ) : (
                           patients.map((patient) => (
                             <tr
                               key={`material-${patient._id}`}
                               className='flex w-full flex-1 items-center justify-start gap-x-3 border-b border-b-[#CCC] p-2 px-2 hover:cursor-pointer hover:bg-[#F1F1F1] lg:p-4 lg:px-4 3xl:p-6 3xl:px-6'
-                              onClick={() => navigate(`/admin/chapter/view/${patient._id}`)}
+                              onClick={() => navigate(`/patient/view/${patient._id}`)}
                             >
                               <td className='flex flex-[3] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
                                 {patient.name}
@@ -228,7 +242,7 @@ const PatientListPage = () => {
                                   type='button'
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    navigate(`/admin/chapter/edit/${patient._id}`);
+                                    navigate(`/patient/edit/${patient._id}`);
                                   }}
                                   className='flex items-center justify-center rounded-full bg-[#4285F4]/90 p-2 hover:bg-[#4285F4]'
                                 >
