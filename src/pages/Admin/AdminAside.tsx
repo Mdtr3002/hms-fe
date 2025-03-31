@@ -10,6 +10,8 @@ import AdminAsideLink from './AdminAsideLink';
 type AdminAsideState = {
   isActive:
     | 'patient'
+    | 'doctor'
+    | 'nurse'
     | 'material'
     | 'exam'
     | 'exercise'
@@ -22,6 +24,8 @@ type AdminAsideState = {
     | 'video'
     | null;
   patient: boolean;
+  doctor: boolean;
+  nurse: boolean;
   material: boolean;
   exam: boolean;
   exercise: boolean;
@@ -38,6 +42,8 @@ const AdminAside: FC = () => {
   const [menuState, setMenuState] = useState<AdminAsideState>({
     isActive: null,
     patient: false,
+    doctor: false,
+    nurse: false,
     material: false,
     exam: false,
     exercise: false,
@@ -61,6 +67,8 @@ const AdminAside: FC = () => {
   const handleClick = (
     type:
       | 'patient'
+      | 'doctor'
+      | 'nurse'
       | 'material'
       | 'exam'
       | 'exercise'
@@ -137,6 +145,20 @@ const AdminAside: FC = () => {
           path='patient'
           titleName='Patient'
           isOpen={menuState.patient}
+          handleClick={handleClick}
+          IconProp={Icon.Profile}
+        />
+        <AdminAsideLink
+          path='doctor'
+          titleName='Doctor'
+          isOpen={menuState.doctor}
+          handleClick={handleClick}
+          IconProp={Icon.Profile}
+        />
+        <AdminAsideLink
+          path='nurse'
+          titleName='Nurse'
+          isOpen={menuState.nurse}
           handleClick={handleClick}
           IconProp={Icon.Profile}
         />
