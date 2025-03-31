@@ -5,6 +5,10 @@ import { Header, Loading } from '../../components';
 import AdminAside from '../../pages/Admin/AdminAside';
 import ChapterEdit from '../../pages/Admin/Chapter/Edit';
 import ChapterView from '../../pages/Admin/Chapter/View';
+import CreateDoctorPage from '../../pages/Admin/Doctor/CreateDoctor';
+import DoctorListPage from '../../pages/Admin/Doctor/DoctorList';
+import DoctorEdit from '../../pages/Admin/Doctor/DoctorEdit';
+import DoctorView from '../../pages/Admin/Doctor/DoctorView';
 import EventCreate from '../../pages/Admin/Event/Create';
 import EventEdit from '../../pages/Admin/Event/Edit';
 import EventList from '../../pages/Admin/Event/List';
@@ -13,7 +17,6 @@ import ExamEdit from '../../pages/Admin/Exam/Edit';
 import ExamView from '../../pages/Admin/Exam/View';
 import EditExercisePage from '../../pages/Admin/Exercise/Edit';
 import ViewExercisePage from '../../pages/Admin/Exercise/View';
-import MaterialEdit from '../../pages/Admin/Material/Edit';
 import MaterialView from '../../pages/Admin/Material/View';
 import CreateSlot from '../../pages/Admin/MockTest/CreateSlot';
 import MockTestEdit from '../../pages/Admin/MockTest/Edit';
@@ -33,6 +36,10 @@ import VideoCreate from '../../pages/Admin/Video/Create';
 import VideoEdit from '../../pages/Admin/Video/Edit';
 import VideoList from '../../pages/Admin/Video/List';
 import VideoView from '../../pages/Admin/Video/View';
+import NurseCreate from '../../pages/Admin/Nurse/CreateNurse';
+import NurseListPage from '../../pages/Admin/Nurse/NurseList';
+import NurseEdit from '../../pages/Admin/Nurse/NurseEdit';
+import NurseView from '../../pages/Admin/Nurse/NurseView';
 
 const CreateExercisePage = lazy(() => import('../../pages/Admin/Exercise/Create'));
 const CreateQuestionPage = lazy(() => import('../../pages/Admin/Question/Create'));
@@ -93,6 +100,74 @@ const AdministratorRoute = () => {
               }
             />
           </Route>
+          <Route path='doctor'>
+            <Route
+              path='manage'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <DoctorListPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path='create'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <CreateDoctorPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path='view/:id'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <DoctorView />
+                </Suspense>
+              }
+            />
+            <Route
+              path="edit/:id"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <DoctorEdit />
+                </Suspense>
+              }
+            />
+          </Route>
+          <Route path='nurse'>
+            <Route
+              path='manage'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <NurseListPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path='create'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <NurseCreate />
+                </Suspense>
+              }
+            />
+            <Route
+              path='view/:id'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <NurseView />
+                </Suspense>
+              }
+            />
+            <Route
+              path='edit/:id'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <NurseEdit />
+                </Suspense>
+              }
+            />
+          </Route>
           <Route path='material'>
             <Route
               path='manage'
@@ -122,7 +197,7 @@ const AdministratorRoute = () => {
               path='edit/:id'
               element={
                 <Suspense fallback={<Loading />}>
-                  <MaterialEdit />
+                  <PatientEdit />
                 </Suspense>
               }
             />

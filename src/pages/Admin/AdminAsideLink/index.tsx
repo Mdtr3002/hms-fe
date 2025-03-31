@@ -6,6 +6,8 @@ import { Icon } from '../../../components';
 type AdminAsideLinkProps = {
   path:
     | 'patient'
+    | 'doctor'
+    | 'nurse'
     | 'material'
     | 'exam'
     | 'exercise'
@@ -21,6 +23,8 @@ type AdminAsideLinkProps = {
   handleClick: (
     type:
       | 'patient'
+      | 'doctor'
+      | 'nurse'
       | 'material'
       | 'exam'
       | 'exercise'
@@ -52,6 +56,12 @@ const AdminAsideLink: React.FC<AdminAsideLinkProps> = ({
   switch (path) {
     case 'patient':
       pathLink = 'patient';
+      break;
+    case 'doctor':
+      pathLink = 'doctor';
+      break;
+    case 'nurse':
+      pathLink = 'nurse';
       break;
     case 'question':
       pathLink = 'questions';
