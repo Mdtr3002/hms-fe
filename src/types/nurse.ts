@@ -1,6 +1,6 @@
-import { Schedule } from "./schedule";
+import { Schedule } from './schedule';
 
-export type nurse = {
+export type Nurse = {
   _id: string;
   name: string;
   phoneNum: string;

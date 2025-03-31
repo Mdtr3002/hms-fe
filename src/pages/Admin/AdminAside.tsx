@@ -162,7 +162,7 @@ const AdminAside: FC = () => {
           handleClick={handleClick}
           IconProp={Icon.Profile}
         />
-        <AdminAsideLink
+        {/* <AdminAsideLink
           path='subject'
           titleName='môn'
           isOpen={menuState.subject}
@@ -231,7 +231,7 @@ const AdminAside: FC = () => {
           isOpen={menuState.bookFair}
           handleClick={handleClick}
           IconProp={Icon.Document}
-        />
+        /> */}
       </div>
     </Aside>
   );

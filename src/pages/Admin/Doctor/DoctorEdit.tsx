@@ -6,10 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Icon } from '../../../components';
-import { Page, Wrapper } from '../../../layout';
-import { Doctor } from '../../../types/doctor';
-import { Appointment } from '../../../types/appointment';
 import { useDebounce } from '../../../hooks';
+import { Page, Wrapper } from '../../../layout';
+import { Appointment } from '../../../types/appointment';
+import { Doctor } from '../../../types/doctor';
 
 function arraysAreEqual<T>(arr1: T[], arr2: T[]) {
   if (arr1.length !== arr2.length) return false;
@@ -43,7 +43,7 @@ const DoctorEdit = () => {
     {
       id: '1',
       patientName: 'Nguyễn Văn A',
-      doctorId: 1,
+      doctorId: '1',
       date: new Date('2025-04-01T10:00:00'),
       reason: 'General Check-up',
       status: 'pending',
@@ -51,7 +51,7 @@ const DoctorEdit = () => {
     {
       id: '2',
       patientName: 'Trần Văn B',
-      doctorId: 1,
+      doctorId: '1',
       date: new Date('2025-04-02T11:00:00'),
       reason: 'Consultation',
       status: 'scheduled',
@@ -59,7 +59,7 @@ const DoctorEdit = () => {
     {
       id: '3',
       patientName: 'Lê Thị C',
-      doctorId: 1,
+      doctorId: '1',
       date: new Date('2025-04-03T09:00:00'),
       reason: 'Follow-up',
       status: 'completed',
@@ -123,7 +123,7 @@ const DoctorEdit = () => {
   const fetchData = useCallback(() => {
     setLoading(true);
     setLoading(false);
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -156,157 +156,158 @@ const DoctorEdit = () => {
 
   return (
     <Page>
-      <Wrapper className="flex flex-1 flex-col">
-        <div className="w-full bg-[#4285F4]/90 py-4">
-          <p className="text-center text-sm font-bold text-white md:text-2xl 3xl:text-4xl">
+      <Wrapper className='flex flex-1 flex-col'>
+        <div className='w-full bg-[#4285F4]/90 py-4'>
+          <p className='text-center text-sm font-bold text-white md:text-2xl 3xl:text-4xl'>
             Edit Doctor&apos;s Information
           </p>
         </div>
-        <div className="w-full p-4">
+        <div className='w-full p-4'>
           <button
-            type="button"
+            type='button'
             onClick={() => navigate(-1)}
-            className="mb-2 flex items-center hover:underline"
+            className='mb-2 flex items-center hover:underline'
           >
-            <Icon.Chevron className="h-5 -rotate-90 fill-black" />
-            <p className="text-sm text-[#5B5B5B]">Back</p>
+            <Icon.Chevron className='h-5 -rotate-90 fill-black' />
+            <p className='text-sm text-[#5B5B5B]'>Back</p>
           </button>
-          <div className="h-full w-full rounded-lg bg-white p-4 lg:p-6 3xl:p-8">
+          <div className='h-full w-full rounded-lg bg-white p-4 lg:p-6 3xl:p-8'>
             {loading ? (
               <>
-                <p className="mb-5 w-full px-6 lg:px-8 3xl:px-10">
-                  <Skeleton width="100%" baseColor="#9DCCFF" height={56} />
+                <p className='mb-5 w-full px-6 lg:px-8 3xl:px-10'>
+                  <Skeleton width='100%' baseColor='#9DCCFF' height={56} />
                 </p>
-                <p className="w-full px-6 lg:px-8 3xl:px-10">
+                <p className='w-full px-6 lg:px-8 3xl:px-10'>
                   <Skeleton
                     count={10}
-                    className="my-2 lg:my-4 3xl:my-6"
-                    width="100%"
+                    className='my-2 lg:my-4 3xl:my-6'
+                    width='100%'
                     height={40}
-                    baseColor="#9DCCFF"
+                    baseColor='#9DCCFF'
                   />
                 </p>
               </>
             ) : (
-              <main className="flex flex-col gap-y-4">
-                <p className="flex text-base lg:text-lg 3xl:text-xl">
-                  Doctor&apos;s ID: {id}
-                </p>
-                <div className="flex flex-col gap-y-1">
-                  <label className="text-base lg:text-lg 3xl:text-xl" htmlFor="name">
+              <main className='flex flex-col gap-y-4'>
+                <p className='flex text-base lg:text-lg 3xl:text-xl'>Doctor&apos;s ID: {id}</p>
+                <div className='flex flex-col gap-y-1'>
+                  <label className='text-base lg:text-lg 3xl:text-xl' htmlFor='name'>
                     Name
                   </label>
                   <input
-                    id="name"
+                    id='name'
                     defaultValue={doctor?.name || ''}
                     value={name}
                     onChange={({ target }) => setName(target.value)}
-                    className="w-full rounded-lg border border-[#D9D9D9] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base"
+                    className='w-full rounded-lg border border-[#D9D9D9] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
                   />
                 </div>
-                <div className="flex flex-col gap-y-1">
-                  <label className="text-base lg:text-lg 3xl:text-xl" htmlFor="phone-number">
+                <div className='flex flex-col gap-y-1'>
+                  <label className='text-base lg:text-lg 3xl:text-xl' htmlFor='phone-number'>
                     Phone Number
                   </label>
                   <input
-                    id="phone-number"
+                    id='phone-number'
                     defaultValue={doctor?.phoneNum || ''}
                     value={phoneNumber}
                     onChange={({ target }) => setPhoneNumber(target.value)}
-                    className="w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base"
+                    className='w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
                   />
                 </div>
-                <div className="flex flex-col gap-y-1">
-                  <label className="text-base lg:text-lg 3xl:text-xl" htmlFor="specialization">
+                <div className='flex flex-col gap-y-1'>
+                  <label className='text-base lg:text-lg 3xl:text-xl' htmlFor='specialization'>
                     Specialization
                   </label>
                   <input
-                    id="specialization"
+                    id='specialization'
                     defaultValue={doctor?.specialization || ''}
                     value={specialization}
                     onChange={({ target }) => setSpecialization(target.value)}
-                    className="w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base"
+                    className='w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
                   />
                 </div>
-                <div className="flex flex-col gap-y-1">
-                  <label className="text-base lg:text-lg 3xl:text-xl" htmlFor="dob">
+                <div className='flex flex-col gap-y-1'>
+                  <label className='text-base lg:text-lg 3xl:text-xl' htmlFor='dob'>
                     Date of Birth
                   </label>
                   <DatePicker
-                    id="dob"
+                    id='dob'
                     selected={dob === 0 ? new Date() : new Date(dob)}
                     onChange={(date) => setDob(new Date(date || 0).getTime())}
-                    className="w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base"
-                    dateFormat="dd/MM/yyyy"
+                    className='w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
+                    dateFormat='dd/MM/yyyy'
                   />
                 </div>
 
-                <div className="mt-4">
-                  <p className="text-lg font-semibold">Schedule</p>
-                  <div className="flex flex-col gap-y-3 mt-2">
-                    <div className="flex flex-col gap-y-1">
-                      <label className="text-base lg:text-lg 3xl:text-xl">Working Time</label>
-                      <div className="flex gap-x-4">
-                        <div className="flex flex-col">
-                          <label className="text-sm">Start Time</label>
+                <div className='mt-4'>
+                  <p className='text-lg font-semibold'>Schedule</p>
+                  <div className='mt-2 flex flex-col gap-y-3'>
+                    <div className='flex flex-col gap-y-1'>
+                      <label className='text-base lg:text-lg 3xl:text-xl'>Working Time</label>
+                      <div className='flex gap-x-4'>
+                        <div className='flex flex-col'>
+                          <label className='text-sm'>Start Time</label>
                           <input
-                            type="time"
+                            type='time'
                             defaultValue={doctor?.schedule?.workingTime.startTime || '08:00'}
                             value={workingTime.startTime}
                             onChange={(e) =>
                               setWorkingTime({ ...workingTime, startTime: e.target.value })
                             }
-                            className="rounded-lg border border-[#CCC] p-1 text-xs"
+                            className='rounded-lg border border-[#CCC] p-1 text-xs'
                           />
                         </div>
-                        <div className="flex flex-col">
-                          <label className="text-sm">End Time</label>
+                        <div className='flex flex-col'>
+                          <label className='text-sm'>End Time</label>
                           <input
-                            type="time"
+                            type='time'
                             defaultValue={doctor?.schedule?.workingTime.endTime || '17:00'}
                             value={workingTime.endTime}
                             onChange={(e) =>
                               setWorkingTime({ ...workingTime, endTime: e.target.value })
                             }
-                            className="rounded-lg border border-[#CCC] p-1 text-xs"
+                            className='rounded-lg border border-[#CCC] p-1 text-xs'
                           />
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-y-1">
-                      <label className="text-base lg:text-lg 3xl:text-xl">Work Days</label>
-                      <div className="flex flex-wrap gap-x-4 gap-y-2">
+                    <div className='flex flex-col gap-y-1'>
+                      <label className='text-base lg:text-lg 3xl:text-xl'>Work Days</label>
+                      <div className='flex flex-wrap gap-x-4 gap-y-2'>
                         {daysOfWeek.map((day) => (
-                          <label key={day} className="flex items-center space-x-2">
+                          <label key={day} className='flex items-center space-x-2'>
                             <input
-                              type="checkbox"
+                              type='checkbox'
                               checked={workDays.includes(day)}
                               onChange={() => toggleWorkDay(day)}
-                              className="rounded"
+                              className='rounded'
                             />
-                            <span className="text-sm">{day}</span>
+                            <span className='text-sm'>{day}</span>
                           </label>
                         ))}
                       </div>
                     </div>
-                    <div className="flex flex-col gap-y-1">
-                      <label className="text-base lg:text-lg 3xl:text-xl" htmlFor="work-description">
+                    <div className='flex flex-col gap-y-1'>
+                      <label
+                        className='text-base lg:text-lg 3xl:text-xl'
+                        htmlFor='work-description'
+                      >
                         Work Description
                       </label>
                       <textarea
-                        id="work-description"
+                        id='work-description'
                         rows={3}
                         defaultValue={doctor?.schedule?.workDescription || ''}
                         value={workDescription}
                         onChange={({ target }) => setWorkDescription(target.value)}
-                        className="w-full rounded-lg border border-[#D9D9D9] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base"
+                        className='w-full rounded-lg border border-[#D9D9D9] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
                       />
                     </div>
                   </div>
                 </div>
-                <div className="flex w-full items-center justify-center mt-4">
+                <div className='mt-4 flex w-full items-center justify-center'>
                   <button
-                    type="submit"
+                    type='submit'
                     disabled={!canSave}
                     onClick={(e) => {
                       e.preventDefault();
@@ -316,55 +317,53 @@ const DoctorEdit = () => {
                       canSave ? 'bg-[#4285F4]/80 hover:bg-[#4285F4]' : 'bg-gray-400/80'
                     }`}
                   >
-                    <p className="font-medium text-white">Save changes</p>
+                    <p className='font-medium text-white'>Save changes</p>
                   </button>
                 </div>
 
                 {/* Appointments Section */}
-                <div className="mt-8">
-                  <p className="text-lg font-semibold mb-4">Appointments</p>
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full table-auto border-collapse">
+                <div className='mt-8'>
+                  <p className='mb-4 text-lg font-semibold'>Appointments</p>
+                  <div className='overflow-x-auto'>
+                    <table className='min-w-full table-auto border-collapse'>
                       <thead>
-                        <tr className="bg-gray-200">
-                          <th className="px-4 py-2 text-left">Patient Name</th>
-                          <th className="px-4 py-2 text-left">Date</th>
-                          <th className="px-4 py-2 text-left">Reason</th>
-                          <th className="px-4 py-2 text-left">Status</th>
-                          <th className="px-4 py-2 text-left">Actions</th>
+                        <tr className='bg-gray-200'>
+                          <th className='px-4 py-2 text-left'>Patient Name</th>
+                          <th className='px-4 py-2 text-left'>Date</th>
+                          <th className='px-4 py-2 text-left'>Reason</th>
+                          <th className='px-4 py-2 text-left'>Status</th>
+                          <th className='px-4 py-2 text-left'>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {appointments.map((appointment) => (
-                          <tr key={appointment.id} className="border-b">
-                            <td className="px-4 py-2">{appointment.patientName}</td>
-                            <td className="px-4 py-2">{appointment.date.toLocaleString()}</td>
-                            <td className="px-4 py-2">{appointment.reason}</td>
-                            <td className="px-4 py-2 capitalize">{appointment.status}</td>
-                            <td className="px-4 py-2">
+                          <tr key={appointment.id} className='border-b'>
+                            <td className='px-4 py-2'>{appointment.patientName}</td>
+                            <td className='px-4 py-2'>{appointment.date.toLocaleString()}</td>
+                            <td className='px-4 py-2'>{appointment.reason}</td>
+                            <td className='px-4 py-2 capitalize'>{appointment.status}</td>
+                            <td className='px-4 py-2'>
                               {appointment.status === 'pending' ? (
-                                <div className="flex gap-2">
+                                <div className='flex gap-2'>
                                   <button
-                                    type="button"
+                                    type='button'
                                     onClick={() =>
                                       handleAppointmentAction(appointment.id, 'accept')
                                     }
-                                    className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 text-xs rounded"
+                                    className='rounded bg-green-500 px-2 py-1 text-xs text-white hover:bg-green-600'
                                   >
                                     Accept
                                   </button>
                                   <button
-                                    type="button"
-                                    onClick={() =>
-                                      handleAppointmentAction(appointment.id, 'deny')
-                                    }
-                                    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded"
+                                    type='button'
+                                    onClick={() => handleAppointmentAction(appointment.id, 'deny')}
+                                    className='rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600'
                                   >
                                     Deny
                                   </button>
                                 </div>
                               ) : (
-                                <span className="text-sm">—</span>
+                                <span className='text-sm'>—</span>
                               )}
                             </td>
                           </tr>

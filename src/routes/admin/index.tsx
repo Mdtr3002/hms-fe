@@ -6,8 +6,8 @@ import AdminAside from '../../pages/Admin/AdminAside';
 import ChapterEdit from '../../pages/Admin/Chapter/Edit';
 import ChapterView from '../../pages/Admin/Chapter/View';
 import CreateDoctorPage from '../../pages/Admin/Doctor/CreateDoctor';
-import DoctorListPage from '../../pages/Admin/Doctor/DoctorList';
 import DoctorEdit from '../../pages/Admin/Doctor/DoctorEdit';
+import DoctorListPage from '../../pages/Admin/Doctor/DoctorList';
 import DoctorView from '../../pages/Admin/Doctor/DoctorView';
 import EventCreate from '../../pages/Admin/Event/Create';
 import EventEdit from '../../pages/Admin/Event/Edit';
@@ -24,6 +24,10 @@ import EditSlot from '../../pages/Admin/MockTest/EditSlot';
 import MockTestList from '../../pages/Admin/MockTest/List';
 import MockTestView from '../../pages/Admin/MockTest/View';
 import ViewSlot from '../../pages/Admin/MockTest/ViewSlot';
+import NurseCreate from '../../pages/Admin/Nurse/CreateNurse';
+import NurseEdit from '../../pages/Admin/Nurse/NurseEdit';
+import NurseListPage from '../../pages/Admin/Nurse/NurseList';
+import NurseView from '../../pages/Admin/Nurse/NurseView';
 import CreatePatientPage from '../../pages/Admin/Patient/CreatePatient';
 import PatientEdit from '../../pages/Admin/Patient/Edit';
 import PatientListPage from '../../pages/Admin/Patient/PatientList';
@@ -36,10 +40,6 @@ import VideoCreate from '../../pages/Admin/Video/Create';
 import VideoEdit from '../../pages/Admin/Video/Edit';
 import VideoList from '../../pages/Admin/Video/List';
 import VideoView from '../../pages/Admin/Video/View';
-import NurseCreate from '../../pages/Admin/Nurse/CreateNurse';
-import NurseListPage from '../../pages/Admin/Nurse/NurseList';
-import NurseEdit from '../../pages/Admin/Nurse/NurseEdit';
-import NurseView from '../../pages/Admin/Nurse/NurseView';
 
 const CreateExercisePage = lazy(() => import('../../pages/Admin/Exercise/Create'));
 const CreateQuestionPage = lazy(() => import('../../pages/Admin/Question/Create'));
@@ -126,7 +126,7 @@ const AdministratorRoute = () => {
               }
             />
             <Route
-              path="edit/:id"
+              path='edit/:id'
               element={
                 <Suspense fallback={<Loading />}>
                   <DoctorEdit />
