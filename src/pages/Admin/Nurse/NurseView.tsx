@@ -11,10 +11,8 @@ const NurseView = () => {
   const id = params?.id ?? '';
   const navigate = useNavigate();
 
-  // Loading state in case you're fetching the details from an API.
   const [loading, setLoading] = useState(false);
 
-  // Mock nurse data.
   const [nurseData, setNurseData] = useState<nurse>({
     _id: '1',
     name: 'Trần Thị D',

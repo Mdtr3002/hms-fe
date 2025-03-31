@@ -15,16 +15,14 @@ const DoctorView = () => {
   const navigate = useNavigate();
   const tableRef = useRef<HTMLDivElement>(null);
 
-  // Loading state in case you're fetching the details from an API.
   const [loading, setLoading] = useState(false);
 
-  // Mock doctor data.
   const [doctor, setDoctor] = useState<Doctor>({
     _id: 'doc1',
     name: 'Dr. John Doe',
     phoneNum: '987654321',
     specialization: 'Cardiology',
-    dob: '2025-01-01T00:00:00.000Z', // ISO string format
+    dob: '2025-01-01T00:00:00.000Z',
     schedule: {
       _id: 'sched1',
       workingTime: { startTime: '08:00', endTime: '17:00' },
@@ -34,7 +32,6 @@ const DoctorView = () => {
     lastUpdatedAt: '2025-03-31T00:00:00.000Z',
   });
 
-  // Mock appointments data.
   const [appointments, setAppointments] = useState<Appointment[]>([
     {
       id: 'a1',
@@ -58,8 +55,6 @@ const DoctorView = () => {
       status: 'completed',
     },
   ]);
-
-  // Handle appointment actions: Accept sets status to "scheduled", Deny sets status to "canceled".
   const handleAppointmentAction = (appointmentId: string, action: 'accept' | 'deny') => {
     setAppointments((prevAppointments) =>
       prevAppointments.map((app) => {

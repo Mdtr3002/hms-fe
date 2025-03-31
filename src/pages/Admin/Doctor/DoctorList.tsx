@@ -77,7 +77,6 @@ const DoctorListPage: React.FC = () => {
 
   const fetchDoctors = useDebounce(() => {
     setLoading(true);
-    // TODO: Replace with your actual API call to fetch doctors.
     setLoading(false);
   });
 

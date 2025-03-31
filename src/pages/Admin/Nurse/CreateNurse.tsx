@@ -25,20 +25,17 @@ const CustomTimeInput: React.FC<CustomTimeInputProps> = ({ date, onChangeCustom,
 };
 
 const NurseCreate = () => {
-  // Nurse basic info states
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [specialization, setSpecialization] = useState('');
   const [dob, setDob] = useState<number>(0);
   const [loading, setLoading] = useState(false);
 
-  // Schedule states
   const [scheduleStartTime, setScheduleStartTime] = useState('09:00:00');
   const [scheduleEndTime, setScheduleEndTime] = useState('18:00:00');
   const [workDays, setWorkDays] = useState<string[]>([]);
   const [scheduleWorkDescription, setScheduleWorkDescription] = useState('');
 
-  // Disable submit if any required field is missing.
   const submitDisabled =
     name === '' ||
     phoneNumber === '' ||
@@ -56,7 +53,6 @@ const NurseCreate = () => {
     setDob(new Date(targetDate).getTime());
   };
 
-  // Weekdays for rendering checkboxes
   const weekdays: string[] = [
     'Monday',
     'Tuesday',
@@ -80,13 +76,13 @@ const NurseCreate = () => {
     setLoading(true);
 
     const data: nurse = {
-      _id: '', // Populate with an id from your backend if available
+      _id: '',
       name,
       phoneNum: phoneNumber,
       dob: new Date(dob).toISOString(),
       specialization,
       schedule: {
-        _id: '', // Populate with an id from your backend if available
+        _id: '',
         workingTime: {
           startTime: scheduleStartTime,
           endTime: scheduleEndTime,
@@ -99,7 +95,6 @@ const NurseCreate = () => {
 
     console.log(data);
 
-    // Reset fields after submission.
     setName('');
     setPhoneNumber('');
     setSpecialization('');

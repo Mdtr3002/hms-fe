@@ -66,7 +66,6 @@ const DoctorEdit = () => {
     },
   ]);
 
-  // Function to update the state of an appointment.
   const handleAppointmentAction = (appointmentId: string, action: 'accept' | 'deny') => {
     setAppointments((prevAppointments) =>
       prevAppointments.map((app) => {
@@ -82,7 +81,6 @@ const DoctorEdit = () => {
     toast.success(`Appointment ${action === 'accept' ? 'accepted' : 'denied'}`);
   };
 
-  // Debounced function that compares form values with the original doctor data.
   const setSave = useDebounce(() => {
     if (doctor) {
       const doctorDobTimestamp = new Date(doctor.dob).getTime();
@@ -104,7 +102,6 @@ const DoctorEdit = () => {
     }
   });
 
-  // On doctor update, initialize the form values.
   useEffect(() => {
     if (doctor) {
       setName(doctor.name);
@@ -123,17 +120,8 @@ const DoctorEdit = () => {
     setSave();
   }, [name, phoneNumber, specialization, dob, workingTime, workDays, workDescription, setSave]);
 
-  // Function to fetch the doctor's data.
   const fetchData = useCallback(() => {
     setLoading(true);
-    // Replace the following with your API call.
-    // DoctorService.getById(id, true)
-    //   .then((res) => setDoctor(res.data.payload))
-    //   .catch((err) => {
-    //     console.error(err);
-    //     toast.error(err.response.data.message);
-    //   })
-    //   .finally(() => setLoading(false));
     setLoading(false);
   }, [id]);
 
@@ -141,7 +129,6 @@ const DoctorEdit = () => {
     fetchData();
   }, [fetchData]);
 
-  // Debounced function to handle saving the updated doctor info.
   const handleOnSave = useDebounce(() => {
     const updatedDoctor: Doctor = {
       _id: id,
@@ -158,16 +145,6 @@ const DoctorEdit = () => {
       lastUpdatedAt: new Date().toISOString(),
     };
 
-    // Replace the following with your API update call.
-    // DoctorService.edit(id, true, updatedDoctor)
-    //   .then(() => {
-    //     toast.success('Edit successfully');
-    //     fetchData();
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     toast.error(err.response.data.message);
-    //   });
     console.log('Updated Doctor:', updatedDoctor);
   });
 

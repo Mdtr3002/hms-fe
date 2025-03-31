@@ -62,7 +62,7 @@ const NurseListPage: React.FC = () => {
   const onDeleteNurse = () => {
     const nurseId = nurseToDelete.current;
     if (nurseId !== null) {
-      // TEMP: Remove the nurse from the list
+      // TEMP DELETE FROM ARRAY
       setNurses((prev) => prev.filter((nurse) => nurse._id !== nurseId));
       setTotalCount((prev) => prev - 1);
       setDeleteModal(false);
@@ -77,7 +77,6 @@ const NurseListPage: React.FC = () => {
 
   const fetchNurses = useDebounce(() => {
     setLoading(true);
-    // TODO: Replace with an API call to fetch nurse data.
     setLoading(false);
   });
 

@@ -22,19 +22,15 @@ const NurseEdit = () => {
   const params = useParams();
   const id = params?.id ?? '';
 
-  // State for the fetched nurse details.
   const [nurseData, setNurseData] = useState<nurse>();
   const [loading, setLoading] = useState(false);
   const [canSave, setCanSave] = useState(false);
 
-  // Form fields.
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [specialization, setSpecialization] = useState('');
-  // We store the nurse's date of birth as a timestamp.
   const [dob, setDob] = useState<number>(new Date().getTime());
 
-  // Schedule fields.
   const [workingTime, setWorkingTime] = useState<{ startTime: string; endTime: string }>({
     startTime: '08:00',
     endTime: '17:00',
@@ -42,7 +38,6 @@ const NurseEdit = () => {
   const [workDays, setWorkDays] = useState<string[]>([]);
   const [workDescription, setWorkDescription] = useState('');
 
-  // Debounced function that checks whether any field has been modified.
   const setSave = useDebounce(() => {
     if (nurseData) {
       const nurseDobTimestamp = new Date(nurseData.dob).getTime();
@@ -64,7 +59,6 @@ const NurseEdit = () => {
     }
   });
 
-  // When nurse data is loaded, initialize all form fields.
   useEffect(() => {
     if (nurseData) {
       setName(nurseData.name);
@@ -79,22 +73,12 @@ const NurseEdit = () => {
     }
   }, [nurseData]);
 
-  // Check for field changes.
   useEffect(() => {
     setSave();
   }, [name, phoneNumber, specialization, dob, workingTime, workDays, workDescription, setSave]);
 
-  // Function to fetch nurse data (replace with your API call).
   const fetchData = useCallback(() => {
     setLoading(true);
-    // Example:
-    // NurseService.getById(id)
-    //   .then((res) => setNurseData(res.data.payload))
-    //   .catch((err) => {
-    //     console.error(err);
-    //     toast.error(err.response.data.message);
-    //   })
-    //   .finally(() => setLoading(false));
     setLoading(false);
   }, [id]);
 
@@ -102,14 +86,12 @@ const NurseEdit = () => {
     fetchData();
   }, [fetchData]);
 
-  // Debounced function to save the updated nurse information.
   const handleOnSave = useDebounce(() => {
     const updatedNurse: nurse = {
       _id: id,
       name,
       phoneNum: phoneNumber,
       specialization,
-      // Convert the dob timestamp to an ISO string.
       dob: new Date(dob).toISOString(),
       schedule: {
         _id: nurseData?.schedule?._id || '0',
@@ -119,17 +101,6 @@ const NurseEdit = () => {
       },
       lastUpdatedAt: new Date().toISOString(),
     };
-
-    // Replace the following with your API update call.
-    // NurseService.edit(id, updatedNurse)
-    //   .then(() => {
-    //     toast.success('Edit successfully');
-    //     fetchData();
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     toast.error(err.response.data.message);
-    //   });
     console.log('Updated Nurse:', updatedNurse);
   });
 

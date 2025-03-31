@@ -25,7 +25,6 @@ const CustomTimeInput: React.FC<CustomTimeInputProps> = ({ date, onChangeCustom,
 };
 
 const DoctorCreate = () => {
-  // Doctor basic info
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [specialization, setSpecialization] = useState('');
@@ -37,7 +36,6 @@ const DoctorCreate = () => {
   const [workDays, setWorkDays] = useState<string[]>([]);
   const [scheduleWorkDescription, setScheduleWorkDescription] = useState('');
 
-  // Disable submit if any required field is missing.
   const submitDisabled =
     name === '' ||
     phoneNumber === '' ||
@@ -55,7 +53,6 @@ const DoctorCreate = () => {
     setDob(new Date(targetDate).getTime());
   };
 
-  // Weekdays for rendering checkboxes
   const weekdays: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   const handleWorkDayChange = (day: string, checked: boolean) => {
