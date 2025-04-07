@@ -1,45 +1,16 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { ReactComponent as NoData } from '../../../assets/svgs/NoData.svg';
 import { Icon, Pagination } from '../../../components';
 import DeleteModal from '../../../components/Modal/DeleteModal';
 import { useDebounce } from '../../../hooks';
 import { Page, Wrapper } from '../../../layout';
+import PatientService from '../../../service/patient.service';
 import useBoundStore from '../../../store';
 import { Patient } from '../../../types/patient';
-
-const mockPatients: Patient[] = [
-  {
-    _id: '1',
-    name: 'Nguyễn Văn A',
-    phoneNum: '0123456789',
-    dob: 1743344526683,
-    lastUpdatedAt: 1743344526683,
-  },
-  {
-    _id: '2',
-    name: 'Nguyễn Văn B',
-    phoneNum: '0123456789',
-    dob: 1743344526683,
-    lastUpdatedAt: 1743344526683,
-  },
-  {
-    _id: '3',
-    name: 'Nguyễn Văn A',
-    phoneNum: '0123456789',
-    dob: 1743344526683,
-    lastUpdatedAt: 1743344526683,
-  },
-  {
-    _id: '4',
-    name: 'Nguyễn Văn B',
-    phoneNum: '0123456789',
-    dob: 1743344526683,
-    lastUpdatedAt: 1743344526683,
-  },
-];
 
 const ITEMS_PER_PAGE = 10;
 
@@ -52,7 +23,7 @@ const PatientListPage = () => {
   const page = useBoundStore.use.page();
   const setPage = useBoundStore.use.setPage();
 
-  const [patients, setPatients] = useState<Patient[]>([...mockPatients]);
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [totalCount, setTotalCount] = useState(1);
 
   const tableRef = React.useRef<HTMLDivElement>(null);
@@ -63,15 +34,15 @@ const PatientListPage = () => {
   const onDeletePatient = () => {
     const patientId = patientToDelete.current;
     if (patientId !== null) {
-      // ChapterService.deleteById(patientId)
-      //   .then(() => {
-      //     toast.success('Xóa chương thành công');
-      //     setPage(1);
-      //     fetchChapters();
-      //   })
-      //   .catch((err) => {
-      //     toast.error(err.response.data.message);
-      //   });
+      PatientService.deleteById(patientId)
+        .then(() => {
+          toast.success('Xóa chương thành công');
+          setPage(1);
+          fetchPatients();
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message);
+        });
     }
     patientToDelete.current = null;
   };
@@ -83,49 +54,31 @@ const PatientListPage = () => {
 
   const fetchPatients = useDebounce(() => {
     setLoading(true);
-    // ChapterService.getAllPaginated(
-    //   {
-    //     name: filterName,
-    //     pageNumber: page,
-    //     pageSize: ITEMS_PER_PAGE,
-    //   },
-    //   true
-    // )
-    //   .then((res) => {
-    //     const { total, result: allChapters } = res.data.payload;
-    //     setPatients(allChapters);
-    //     setTotalCount(total);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.response.data.message);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    PatientService.getAllPaginated(
+      {
+        name: filterName,
+        pageNumber: page,
+        pageSize: ITEMS_PER_PAGE,
+      },
+      true
+    )
+      .then((res) => {
+        const { total, result: allPatients } = res.data.payload;
+        setPatients(allPatients);
+        setTotalCount(total);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     setLoading(false);
   });
 
   useEffect(() => {
     fetchPatients();
   }, [page, filterName, fetchPatients]);
-
-  // useEffect(() => {
-  //   SubjectService.getAll({}, true)
-  //     .then((res) => {
-  //       const { result: allSubjects } = res.data.payload;
-  //       setFilterSubjectOptions(
-  //         allSubjects.map((subject) => {
-  //           return {
-  //             value: subject._id,
-  //             label: subject.name,
-  //           };
-  //         })
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err.response.data.message);
-  //     });
-  // }, []);
 
   return (
     <Page>
@@ -203,7 +156,7 @@ const PatientListPage = () => {
                             Date of birth
                           </th>
                           <th className='flex flex-[2.5] items-center justify-start text-left text-base font-semibold text-[#4285f4] lg:text-lg 3xl:text-xl'>
-                            Last updated
+                            Description
                           </th>
                           <th className='flex flex-1 items-center justify-start text-base font-semibold text-[#4285f4] lg:text-lg 3xl:text-xl'>
                             {''}
@@ -227,15 +180,13 @@ const PatientListPage = () => {
                                 {patient.name}
                               </td>
                               <td className='flex flex-[1.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                                {patient.phoneNum}
+                                {patient.phoneNumber}
                               </td>
                               <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                                {new Date(patient.dob).toLocaleString()}
+                                {new Date(patient.dob).toLocaleDateString()}
                               </td>
                               <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                                {patient.lastUpdatedAt !== undefined
-                                  ? new Date(patient.lastUpdatedAt).toLocaleString()
-                                  : undefined}
+                                {patient.description || 'No description'}
                               </td>
                               <td className='flex flex-1 items-center justify-end gap-x-2 gap-y-2 whitespace-nowrap'>
                                 <button

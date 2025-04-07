@@ -1,8 +1,8 @@
 export type Appointment = {
-  id: string; 
+  id: string;
   patientName: string;
   doctorId: string;
-  date: Date; 
+  date: Date;
   reason: string;
-  status: "scheduled" | "completed" | "canceled" | "pending";
+  status: 'scheduled' | 'completed' | 'canceled' | 'pending';
 };

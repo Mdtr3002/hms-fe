@@ -511,7 +511,7 @@ const EditExercisePage = () => {
                         <div
                           key={question._id}
                           className='flex flex-1 flex-shrink-0 flex-row items-center gap-x-4 border-b border-b-[#CCC]/60
-                      px-6 py-2 lg:py-4 lg:px-8 3xl:py-6 3xl:px-10'
+                      px-6 py-2 lg:px-8 lg:py-4 3xl:px-10 3xl:py-6'
                         >
                           <p className='flex flex-[2.5] text-xs font-medium lg:text-sm 3xl:text-base'>
                             {question.name}

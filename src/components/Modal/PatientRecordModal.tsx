@@ -1,5 +1,4 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { useQueryClient } from '@tanstack/react-query';
 import { Fragment, FC, SetStateAction, Dispatch, useState, FormEvent, useEffect } from 'react';
 
 import { Icon } from '..';
@@ -11,49 +10,36 @@ const PatientRecordModal: FC<{
   medicalRecord?: MedicalRecord;
   setIsOpen: (value: boolean) => void;
   handleOpen: Dispatch<SetStateAction<boolean>>;
-}> = ({ isOpen, isEditing, handleOpen, setIsOpen, medicalRecord }) => {
-  const [record, setRecord] = useState<Omit<MedicalRecord, '_id'>>({
-    date: 0,
-    followUpDate: 0,
-    treatment: '',
-    notes: '',
-  });
-  const queryClient = useQueryClient();
-
-  // const registerBookfair = useMutation({
-  //   mutationFn: BookFairService.registerBookfair,
-  //   onSuccess: () => {
-  //     toast.success('Đăng ký thành công');
-  //     closeModal();
-  //     queryClient.invalidateQueries({ queryKey: ['get-bookfair-registration-info'] });
-  //   },
-  //   onError: (error) => {
-  //     if (error instanceof AxiosError && error.response?.data.message) {
-  //       if (typeof error.response.data.message === 'string') {
-  //         return toast.error(error.response.data.message);
-  //       } else {
-  //         return toast.error('Thông tin không hợp lệ hoặc đã tồn tại. Vui lòng kiểm tra lại');
-  //       }
-  //     }
-  //     toast.error('Đã có lỗi xảy ra. Vui lòng thử lại');
-  //   },
-  // });
-
-  const onAccept = (e: FormEvent) => {
-    e.preventDefault();
-    // registerBookfair.mutate(studentInfo);
-  };
+  onAccept: (record: MedicalRecord, isEditing: boolean) => void;
+}> = ({ isOpen, isEditing, handleOpen, setIsOpen, medicalRecord, onAccept }) => {
+  const [record, setRecord] = useState<MedicalRecord>(
+    medicalRecord || {
+      recordId: '',
+      date: 0,
+      followUpDate: 0,
+      treatment: '',
+      notes: '',
+    }
+  );
 
   function closeModal() {
     setIsOpen(false);
     handleOpen(false);
     setRecord({
+      recordId: '',
       date: 0,
       followUpDate: 0,
       treatment: '',
       notes: '',
     });
   }
+
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    console.log(record);
+    onAccept(record, isEditing);
+    closeModal();
+  };
 
   const disabled =
     // registerBookfair.isLoading ||
@@ -62,6 +48,7 @@ const PatientRecordModal: FC<{
   useEffect(() => {
     if (isEditing && medicalRecord) {
       setRecord({
+        recordId: medicalRecord.recordId,
         date: medicalRecord.date,
         followUpDate: medicalRecord.followUpDate,
         treatment: medicalRecord.treatment,
@@ -98,7 +85,7 @@ const PatientRecordModal: FC<{
             >
               <Dialog.Panel
                 as='form'
-                onSubmit={onAccept}
+                onSubmit={onSubmit}
                 className='relative w-full max-w-[80vw] transform rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all sm:max-w-[60vw] xl:max-w-[40vw]'
               >
                 <Icon.NotebookDecor className='absolute right-3 top-3 hidden h-10 w-10 rotate-12 sm:block md:h-12 md:w-12' />

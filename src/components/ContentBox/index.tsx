@@ -10,7 +10,7 @@ type ContentBoxProps = {
 const ContentBox: FC<ContentBoxProps> = ({ title, content, Icon, containerClass }) => {
   return (
     <div className={`flex flex-row gap-x-4 ${containerClass}`}>
-      <div className='max-w-16 flex aspect-square max-h-16 w-16 items-center justify-center rounded-xl border border-[#4285F4]'>
+      <div className='flex aspect-square max-h-16 w-16 max-w-16 items-center justify-center rounded-xl border border-[#4285F4]'>
         <Icon className='aspect-square w-12 fill-[#4285F4]' />
       </div>
       <div className='flex flex-col justify-evenly'>

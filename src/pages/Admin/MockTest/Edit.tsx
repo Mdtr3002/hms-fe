@@ -304,7 +304,7 @@ const MockTestEdit = () => {
                         to={`/admin/mock-test/slot/view/${mockTest?._id}/${slot.slotId}`}
                         key={slot.slotId}
                         className='flex flex-1 flex-shrink-0 flex-row items-center gap-x-4 border-b border-b-[#CCC]/60 px-6
-                      py-2 hover:bg-[#F1F1F1] lg:py-4 lg:px-8 3xl:px-10 3xl:py-6'
+                      py-2 hover:bg-[#F1F1F1] lg:px-8 lg:py-4 3xl:px-10 3xl:py-6'
                       >
                         <p className='flex flex-[2.5] text-xs font-medium lg:text-sm 3xl:text-base'>
                           {slot?.name || 'Chưa có tên'}

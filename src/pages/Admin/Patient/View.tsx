@@ -1,10 +1,12 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { ReactComponent as NoData } from '../../../assets/svgs/NoData.svg';
 import { Icon } from '../../../components';
 import { Page, Wrapper } from '../../../layout';
+import PatientService from '../../../service/patient.service';
 import { Patient } from '../../../types/patient';
 
 const PatientView = () => {
@@ -13,42 +15,28 @@ const PatientView = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [patient, setPatient] = useState<Patient>({
-    _id: '1',
-    name: 'Nguyễn Văn A',
-    phoneNum: '123456789',
-    dob: 1743344526683,
-    description: 'Lorem ipsum dolor sit amet',
-    medicalRecords: [
-      {
-        _id: '1',
-        treatment: 'Treatment 1',
-        date: 1743344526683,
-        followUpDate: 1743344526683,
-      },
-      {
-        _id: '2',
-        treatment: 'Treatment 2',
-        date: 1743344526683,
-        followUpDate: 1743344526683,
-      },
-    ],
+    _id: '',
+    name: '',
+    phoneNumber: '',
+    dob: 0,
+    medicalRecord: [],
   });
   const tableRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   ChapterService.getById(id, true)
-  //     .then((res) => {
-  //       const result = res.data.payload;
-  //       setChapter(result);
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err.response.data.message);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, [id]);
+  useEffect(() => {
+    setLoading(true);
+    PatientService.getById(id, true)
+      .then((res) => {
+        const result = res.data.payload;
+        setPatient(result);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [id]);
 
   return (
     <Page>
@@ -110,7 +98,7 @@ const PatientView = () => {
                     <p className='flex flex-[2.5] text-base lg:text-lg 3xl:text-xl'>Phone number</p>
                     <input
                       id='patient-phone-number'
-                      value={patient.phoneNum}
+                      value={patient.phoneNumber}
                       placeholder='No information'
                       className='flex w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium
                 lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
@@ -123,7 +111,7 @@ const PatientView = () => {
                     </p>
                     <input
                       id='patient-dob'
-                      value={patient.dob}
+                      value={new Date(patient.dob).toLocaleDateString()}
                       placeholder='No information'
                       className='flex w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium
                 lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
@@ -170,25 +158,25 @@ const PatientView = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {patient.medicalRecords?.length === 0 ? (
+                        {patient.medicalRecord?.length === 0 ? (
                           <div className='z-10 rounded-[20px] bg-white px-4 py-3 md:p-5 xl:p-6 2xl:p-7'>
                             <NoData width={200} className='mx-auto w-[200px] p-7 xl:w-[300px]' />
                             <p className='w-full text-center'>No records found</p>
                           </div>
                         ) : (
-                          patient.medicalRecords?.map((record) => (
+                          patient.medicalRecord?.map((record) => (
                             <tr
-                              key={`material-${record._id}`}
+                              key={`material-${record.recordId}`}
                               className='flex w-full flex-1 items-center justify-start gap-x-3 border-b border-b-[#CCC] p-2 px-2 hover:cursor-pointer hover:bg-[#F1F1F1] lg:p-4 lg:px-4 3xl:p-6 3xl:px-6'
                             >
                               <td className='flex flex-[3] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
                                 {record.treatment}
                               </td>
                               <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                                {new Date(record.date).toLocaleString()}
+                                {new Date(record.date).toLocaleDateString()}
                               </td>
                               <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                                {new Date(record.followUpDate).toLocaleString()}
+                                {new Date(record.followUpDate).toLocaleDateString()}
                               </td>
                             </tr>
                           ))

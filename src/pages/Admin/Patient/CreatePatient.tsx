@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { ReactComponent as NoData } from '../../../assets/svgs/NoData.svg';
 import { Icon } from '../../../components';
 import DeleteModal from '../../../components/Modal/DeleteModal';
 import PatientRecordModal from '../../../components/Modal/PatientRecordModal';
 import { Page, Wrapper } from '../../../layout';
+import PatientService from '../../../service/patient.service';
 import { MedicalRecord } from '../../../types/patient';
 
 interface CustomTimeInputProps {
@@ -40,7 +42,7 @@ const PatientCreate = () => {
   const recordToDelete = useRef<string | null>(null);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [dob, setDob] = useState<number>(0);
+  const [dob, setDob] = useState<number>(new Date().getTime());
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const tableRef = React.useRef<HTMLDivElement>(null);
@@ -54,20 +56,7 @@ const PatientCreate = () => {
     isEditing: false,
     medicalRecord: undefined,
   });
-  const [medicalRecord, setMedicalRecord] = useState<MedicalRecord[]>([
-    {
-      _id: '1',
-      treatment: 'Treatment 1',
-      date: 1743344526683,
-      followUpDate: 1743344526683,
-    },
-    {
-      _id: '2',
-      treatment: 'Treatment 2',
-      date: 1743344526683,
-      followUpDate: 1743344526683,
-    },
-  ]);
+  const [medicalRecord, setMedicalRecord] = useState<MedicalRecord[]>([]);
 
   const submitDisabled = name === '' || phoneNumber === '' || loading || dob === 0;
 
@@ -88,19 +77,22 @@ const PatientCreate = () => {
       name,
       description,
       phoneNumber,
+      dob,
+      medicalRecord,
     };
-    // EventService.create(data)
-    //   .then((_) => {
-    //     toast.success('Tạo sự kiện thành công');
-    //     setName('');
-    //     setEventType('');
-    //     setPhonenNNumber('');
-    //     setDescription('');
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.response.data.message);
-    //   })
-    //   .finally(() => setLoading(false));
+    PatientService.create(data)
+      .then((_) => {
+        toast.success('Create patient successfully');
+        setName('');
+        setDob(0);
+        setPhoneNumber('');
+        setDescription('');
+        setMedicalRecord([]);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -109,6 +101,16 @@ const PatientCreate = () => {
         {...modalProps}
         handleOpen={() => {}}
         setIsOpen={(value) => setModalProps({ ...modalProps, isOpen: value })}
+        onAccept={(record, isEditing) =>
+          setMedicalRecord((prev) => {
+            if (isEditing) {
+              return prev.map((item) =>
+                item.recordId === record.recordId ? { ...item, ...record } : item
+              );
+            }
+            return [...prev, { ...record, recordId: Date.now().toString() }];
+          })
+        }
       />
       <DeleteModal
         text='Do you want to delete this record?'
@@ -117,7 +119,7 @@ const PatientCreate = () => {
         onDelete={() => {
           if (recordToDelete.current) {
             setMedicalRecord((prev) =>
-              prev.filter((record) => record._id !== recordToDelete.current)
+              prev.filter((record) => record.recordId !== recordToDelete.current)
             );
           }
           setDeleteModal(false);
@@ -178,7 +180,7 @@ const PatientCreate = () => {
                     Date of Birth
                   </p>
                   <DatePicker
-                    selected={dob === 0 ? new Date() : new Date(dob)}
+                    selected={new Date(dob)}
                     showTimeInput
                     timeInputLabel='Time:'
                     onChange={(date) => setDob(new Date(date || 0).getTime())}
@@ -255,17 +257,17 @@ const PatientCreate = () => {
                       ) : (
                         medicalRecord.map((record) => (
                           <tr
-                            key={`material-${record._id}`}
+                            key={`material-${record.recordId}`}
                             className='flex w-full flex-1 items-center justify-start gap-x-3 border-b border-b-[#CCC] p-2 px-2 hover:cursor-pointer hover:bg-[#F1F1F1] lg:p-4 lg:px-4 3xl:p-6 3xl:px-6'
                           >
                             <td className='flex flex-[3] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
                               {record.treatment}
                             </td>
                             <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                              {new Date(record.date).toLocaleString()}
+                              {new Date(record.date).toLocaleDateString()}
                             </td>
                             <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                              {new Date(record.followUpDate).toLocaleString()}
+                              {new Date(record.followUpDate).toLocaleDateString()}
                             </td>
                             <td className='flex flex-1 items-center justify-end gap-x-2 gap-y-2 whitespace-nowrap'>
                               <button
@@ -290,7 +292,7 @@ const PatientCreate = () => {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   e.preventDefault();
-                                  recordToDelete.current = record._id;
+                                  recordToDelete.current = record.recordId;
                                   setDeleteModal(true);
                                 }}
                               >

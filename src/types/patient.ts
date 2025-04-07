@@ -1,5 +1,5 @@
 export type MedicalRecord = {
-  _id: string;
+  recordId: string;
   date: number;
   followUpDate: number;
   treatment: string;
@@ -9,9 +9,9 @@ export type MedicalRecord = {
 export type Patient = {
   _id: string;
   name: string;
-  phoneNum: string;
+  phoneNumber: string;
   dob: number;
   description?: string;
   lastUpdatedAt?: number;
-  medicalRecords?: MedicalRecord[];
+  medicalRecord?: MedicalRecord[];
 };

@@ -1,8 +1,5 @@
 {
   "projects": {
-    "dev": "ctct-web-dev",
-    "default": "ctct-production"
-  },
-  "targets": {},
-  "etags": {}
+    "default": "hms-fe-3d926"
+  }
 }

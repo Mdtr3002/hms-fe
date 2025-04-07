@@ -11,7 +11,7 @@ import DeleteModal from '../../../components/Modal/DeleteModal';
 import PatientRecordModal from '../../../components/Modal/PatientRecordModal';
 import { useDebounce } from '../../../hooks';
 import { Page, Wrapper } from '../../../layout';
-import ChapterService from '../../../service/chapter.service';
+import PatientService from '../../../service/patient.service';
 import { MedicalRecord, Patient } from '../../../types/patient';
 
 import { CustomTimeInput } from './CreatePatient';
@@ -28,25 +28,12 @@ const PatientEdit = () => {
   const tableRef = React.useRef<HTMLDivElement>(null);
   const recordToDelete = React.useRef<string | null>(null);
 
-  const [name, setName] = useState('minh');
-  const [phoneNumber, setPhoneNumber] = useState('12345678');
-  const [dob, setDob] = useState<number>(1743344526683);
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [dob, setDob] = useState<number>(new Date().getTime());
   const [description, setDescription] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
-  const [medicalRecord, setMedicalRecord] = useState<MedicalRecord[]>([
-    {
-      _id: '1',
-      treatment: 'Treatment 1',
-      date: 1743344526683,
-      followUpDate: 1743344526683,
-    },
-    {
-      _id: '2',
-      treatment: 'Treatment 2',
-      date: 1743344526683,
-      followUpDate: 1743344526683,
-    },
-  ]);
+  const [medicalRecord, setMedicalRecord] = useState<MedicalRecord[]>([]);
   const [modalProps, setModalProps] = useState<{
     isOpen: boolean;
     isEditing: boolean;
@@ -65,25 +52,25 @@ const PatientEdit = () => {
     if (patient) {
       setCanSave(
         name !== patient.name ||
-          phoneNumber !== patient.phoneNum ||
+          phoneNumber !== patient.phoneNumber ||
           dob !== patient.dob ||
           _.trim(description) !== patient.description ||
-          !arraysAreEqual(medicalRecord, patient.medicalRecords || [])
+          !arraysAreEqual(medicalRecord, patient.medicalRecord || [])
       );
     }
   });
 
   const fetchData = useCallback(() => {
     setLoading(true);
-    // ChapterService.getById(id, true)
-    //   .then((res) => setChapter(res.data.payload))
-    //   .catch((err) => {
-    //     console.log(err);
-    //     toast.error(err.response.data.message);
-    //   })
-    //   .finally(() => setLoading(false));
+    PatientService.getById(id, true)
+      .then((res) => setPatient(res.data.payload))
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.message);
+      })
+      .finally(() => setLoading(false));
     setLoading(false);
-  }, []);
+  }, [id]);
 
   const handleChangeTime = (date: Date | null, time: string, isStartDate: boolean) => {
     const [hh, mm, ss] = time.split(':');
@@ -96,10 +83,16 @@ const PatientEdit = () => {
   };
 
   const handleOnSave = useDebounce((): void => {
-    ChapterService.edit(id, true, name, description)
+    PatientService.editById(id, {
+      name,
+      phoneNumber,
+      dob,
+      description,
+      medicalRecord,
+    })
       .then(() => {
         toast.success('Edit successfully');
-        fetchData();
+        navigate(-1);
       })
       .catch((err) => {
         console.error(err);
@@ -110,10 +103,10 @@ const PatientEdit = () => {
   useEffect(() => {
     if (patient) {
       setName(patient.name);
-      setPhoneNumber(patient.phoneNum);
+      setPhoneNumber(patient.phoneNumber);
       setDob(new Date(patient.dob).getTime());
       setDescription(patient?.description || '');
-      setMedicalRecord(patient?.medicalRecords || []);
+      setMedicalRecord(patient?.medicalRecord || []);
     }
   }, [patient]);
 
@@ -131,6 +124,15 @@ const PatientEdit = () => {
         {...modalProps}
         handleOpen={() => {}}
         setIsOpen={(value) => setModalProps({ ...modalProps, isOpen: value })}
+        onAccept={(record) => {
+          if (modalProps.isEditing) {
+            setMedicalRecord((prev) =>
+              prev.map((rec) => (rec.recordId === record.recordId ? record : rec))
+            );
+          } else {
+            setMedicalRecord((prev) => [...prev, { ...record, recordId: `${Date.now()}` }]);
+          }
+        }}
       />
       <DeleteModal
         text='Do you want to delete this record?'
@@ -139,7 +141,7 @@ const PatientEdit = () => {
         onDelete={() => {
           if (recordToDelete.current) {
             setMedicalRecord((prev) =>
-              prev.filter((record) => record._id !== recordToDelete.current)
+              prev.filter((record) => record.recordId !== recordToDelete.current)
             );
           }
           setDeleteModal(false);
@@ -205,6 +207,9 @@ const PatientEdit = () => {
                     <input
                       id='patient-phone-number'
                       value={phoneNumber}
+                      onChange={({ target }) => {
+                        setPhoneNumber(target.value);
+                      }}
                       placeholder='No information'
                       className='flex w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium
                 lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
@@ -221,7 +226,7 @@ const PatientEdit = () => {
                       onChange={(date) => setDob(new Date(date || 0).getTime())}
                       className='flex w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium
                                       lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
-                      dateFormat={'dd/MM/yyyy HH:mm:ss'}
+                      dateFormat={'dd/MM/yyyy'}
                       customTimeInput={
                         <CustomTimeInput
                           date={dob === 0 ? new Date() : new Date(dob)}
@@ -295,17 +300,17 @@ const PatientEdit = () => {
                         ) : (
                           medicalRecord?.map((record) => (
                             <tr
-                              key={`material-${record._id}`}
+                              key={`material-${record.recordId}`}
                               className='flex w-full flex-1 items-center justify-start gap-x-3 border-b border-b-[#CCC] p-2 px-2 hover:cursor-pointer hover:bg-[#F1F1F1] lg:p-4 lg:px-4 3xl:p-6 3xl:px-6'
                             >
                               <td className='flex flex-[3] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
                                 {record.treatment}
                               </td>
                               <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                                {new Date(record.date).toLocaleString()}
+                                {new Date(record.date).toLocaleDateString()}
                               </td>
                               <td className='flex flex-[2.5] items-center justify-start text-xs font-medium lg:text-sm 3xl:text-base'>
-                                {new Date(record.followUpDate).toLocaleString()}
+                                {new Date(record.followUpDate).toLocaleDateString()}
                               </td>
                               <td className='flex flex-1 items-center justify-end gap-x-2 gap-y-2 whitespace-nowrap'>
                                 <button
@@ -330,7 +335,7 @@ const PatientEdit = () => {
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
-                                    recordToDelete.current = record._id;
+                                    recordToDelete.current = record.recordId;
                                     setDeleteModal(true);
                                   }}
                                 >

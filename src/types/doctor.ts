@@ -1,4 +1,4 @@
-import { Schedule } from "./schedule";
+import { Schedule } from './schedule';
 
 export type Doctor = {
   _id: string;
