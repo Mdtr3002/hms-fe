@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { Icon } from '../../../components';
+import {DoctorService} from '../../../service/staff.service';
 import { Page, Wrapper } from '../../../layout';
 import { Doctor } from '../../../types/doctor';
 
@@ -12,7 +14,11 @@ interface CustomTimeInputProps {
   isStartDate: boolean;
 }
 
-const CustomTimeInput: React.FC<CustomTimeInputProps> = ({ date, onChangeCustom, isStartDate }) => {
+const CustomTimeInput: React.FC<CustomTimeInputProps> = ({
+  date,
+  onChangeCustom,
+  isStartDate,
+}) => {
   const value = date instanceof Date ? date.toLocaleTimeString('it-IT') : '';
   return (
     <input
@@ -71,39 +77,40 @@ const DoctorCreate = () => {
     }
   };
 
-  const createDoctor = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const createDoctor = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true);
 
-    const data: Doctor = {
-      _id: '',
+    const payload = {
       name,
-      phoneNum: phoneNumber,
-      dob: new Date(dob).toISOString(),
-      specialization: specialization,
-      schedule: {
-        _id: '',
-        workingTime: {
-          startTime: scheduleStartTime,
-          endTime: scheduleEndTime,
-        },
-        workDay: workDays,
-        workDescription: scheduleWorkDescription,
-      },
-      lastUpdatedAt: new Date().toISOString(),
+      phoneNumber,
+      dob, 
+      description: '', 
+      specialization,
+      scheduleStartTime,
+      scheduleEndTime,
+      workDays,
+      scheduleWorkDescription,
     };
 
-    console.log(data);
-
-    setName('');
-    setPhoneNumber('');
-    setSpecialization('');
-    setDob(0);
-    setScheduleStartTime('09:00:00');
-    setScheduleEndTime('18:00:00');
-    setWorkDays([]);
-    setScheduleWorkDescription('');
-    setLoading(false);
+    try {
+      await DoctorService.create(payload);
+      toast.success('Doctor created successfully');
+      setName('');
+      setPhoneNumber('');
+      setSpecialization('');
+      setDob(0);
+      setScheduleStartTime('09:00:00');
+      setScheduleEndTime('18:00:00');
+      setWorkDays([]);
+      setScheduleWorkDescription('');
+    } catch (error: any) {
+      toast.error(
+        error.response?.data?.message || 'Failed to create doctor. Please try again.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

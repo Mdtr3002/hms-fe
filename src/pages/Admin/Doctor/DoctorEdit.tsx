@@ -10,13 +10,22 @@ import { useDebounce } from '../../../hooks';
 import { Page, Wrapper } from '../../../layout';
 import { Appointment } from '../../../types/appointment';
 import { Doctor } from '../../../types/doctor';
+import {DoctorService} from '../../../service/staff.service';
 
 function arraysAreEqual<T>(arr1: T[], arr2: T[]) {
   if (arr1.length !== arr2.length) return false;
   return arr1.every((value, index) => value === arr2[index]);
 }
 
-const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const daysOfWeek = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
 
 const DoctorEdit = () => {
   const navigate = useNavigate();
@@ -32,7 +41,10 @@ const DoctorEdit = () => {
   const [specialization, setSpecialization] = useState('');
   const [dob, setDob] = useState<number>(new Date().getTime());
 
-  const [workingTime, setWorkingTime] = useState<{ startTime: string; endTime: string }>({
+  const [workingTime, setWorkingTime] = useState<{
+    startTime: string;
+    endTime: string;
+  }>({
     startTime: '08:00',
     endTime: '17:00',
   });
@@ -66,7 +78,10 @@ const DoctorEdit = () => {
     },
   ]);
 
-  const handleAppointmentAction = (appointmentId: string, action: 'accept' | 'deny') => {
+  const handleAppointmentAction = (
+    appointmentId: string,
+    action: 'accept' | 'deny'
+  ) => {
     setAppointments((prevAppointments) =>
       prevAppointments.map((app) => {
         if (app.id === appointmentId) {
@@ -78,7 +93,9 @@ const DoctorEdit = () => {
         return app;
       })
     );
-    toast.success(`Appointment ${action === 'accept' ? 'accepted' : 'denied'}`);
+    toast.success(
+      `Appointment ${action === 'accept' ? 'accepted' : 'denied'}`
+    );
   };
 
   const setSave = useDebounce(() => {
@@ -100,7 +117,7 @@ const DoctorEdit = () => {
           scheduleChanged
       );
     }
-  });
+  }, 300);
 
   useEffect(() => {
     if (doctor) {
@@ -123,30 +140,40 @@ const DoctorEdit = () => {
   const fetchData = useCallback(() => {
     setLoading(true);
     setLoading(false);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  const handleOnSave = useDebounce(() => {
-    const updatedDoctor: Doctor = {
-      _id: id,
+  const handleOnSave = useDebounce(async () => {
+    const updatedData = {
       name,
-      phoneNum: phoneNumber,
+      phoneNumber,
+      dob, 
+      description: doctor?.description ?? '',
       specialization,
-      dob: new Date(dob).toISOString(),
-      schedule: {
-        _id: doctor?.schedule?._id || '0',
-        workingTime,
-        workDay: workDays,
-        workDescription,
-      },
-      lastUpdatedAt: new Date().toISOString(),
+      scheduleStartTime: workingTime.startTime,
+      scheduleEndTime: workingTime.endTime,
+      workDays,
+      scheduleWorkDescription: workDescription,
     };
 
-    console.log('Updated Doctor:', updatedDoctor);
-  });
+    try {
+      setLoading(true);
+      const response = await DoctorService.editById(id, updatedData);
+      toast.success("Doctor updated successfully");
+      setDoctor(response.data);
+      navigate(`/doctor/view/${id}`);
+    } catch (error: any) {
+      console.error("Error updating doctor:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to update doctor, please try again"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, 500);
 
   const toggleWorkDay = (day: string) => {
     setWorkDays((prevDays) =>
@@ -189,14 +216,15 @@ const DoctorEdit = () => {
               </>
             ) : (
               <main className='flex flex-col gap-y-4'>
-                <p className='flex text-base lg:text-lg 3xl:text-xl'>Doctor&apos;s ID: {id}</p>
+                <p className='flex text-base lg:text-lg 3xl:text-xl'>
+                  Doctor&apos;s ID: {id}
+                </p>
                 <div className='flex flex-col gap-y-1'>
                   <label className='text-base lg:text-lg 3xl:text-xl' htmlFor='name'>
                     Name
                   </label>
                   <input
                     id='name'
-                    defaultValue={doctor?.name || ''}
                     value={name}
                     onChange={({ target }) => setName(target.value)}
                     className='w-full rounded-lg border border-[#D9D9D9] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
@@ -208,7 +236,6 @@ const DoctorEdit = () => {
                   </label>
                   <input
                     id='phone-number'
-                    defaultValue={doctor?.phoneNum || ''}
                     value={phoneNumber}
                     onChange={({ target }) => setPhoneNumber(target.value)}
                     className='w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
@@ -220,7 +247,6 @@ const DoctorEdit = () => {
                   </label>
                   <input
                     id='specialization'
-                    defaultValue={doctor?.specialization || ''}
                     value={specialization}
                     onChange={({ target }) => setSpecialization(target.value)}
                     className='w-full rounded-lg border border-[#CCC] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
@@ -297,7 +323,6 @@ const DoctorEdit = () => {
                       <textarea
                         id='work-description'
                         rows={3}
-                        defaultValue={doctor?.schedule?.workDescription || ''}
                         value={workDescription}
                         onChange={({ target }) => setWorkDescription(target.value)}
                         className='w-full rounded-lg border border-[#D9D9D9] p-1 text-xs font-medium lg:p-3 lg:text-sm 3xl:p-5 3xl:text-base'
@@ -339,9 +364,13 @@ const DoctorEdit = () => {
                         {appointments.map((appointment) => (
                           <tr key={appointment.id} className='border-b'>
                             <td className='px-4 py-2'>{appointment.patientName}</td>
-                            <td className='px-4 py-2'>{appointment.date.toLocaleString()}</td>
+                            <td className='px-4 py-2'>
+                              {appointment.date.toLocaleString()}
+                            </td>
                             <td className='px-4 py-2'>{appointment.reason}</td>
-                            <td className='px-4 py-2 capitalize'>{appointment.status}</td>
+                            <td className='px-4 py-2 capitalize'>
+                              {appointment.status}
+                            </td>
                             <td className='px-4 py-2'>
                               {appointment.status === 'pending' ? (
                                 <div className='flex gap-2'>
@@ -356,7 +385,9 @@ const DoctorEdit = () => {
                                   </button>
                                   <button
                                     type='button'
-                                    onClick={() => handleAppointmentAction(appointment.id, 'deny')}
+                                    onClick={() =>
+                                      handleAppointmentAction(appointment.id, 'deny')
+                                    }
                                     className='rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600'
                                   >
                                     Deny
